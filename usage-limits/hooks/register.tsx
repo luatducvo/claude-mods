@@ -10,18 +10,12 @@ const limits = atom({ plugin: 'usage-limits', key: 'limits' } as const, [] as Li
 const NAMES: Record<string, string> = { five_hour: '5h', seven_day: 'Week', spend_limit: 'Spend' }
 const ORDER = ['five_hour', 'seven_day', 'spend_limit']
 const WARN_AT = [80, 90]
-const BAR = 10
 
 function level(p: number): { icon: string; color: string } {
   if (p < 50) return { icon: '☀', color: 'green' }
   if (p < 75) return { icon: '☁', color: 'yellow' }
   if (p < 90) return { icon: '☂', color: 'magenta' }
   return { icon: '↯', color: 'red' }
-}
-
-function bar(p: number): string {
-  const full = Math.max(0, Math.min(BAR, Math.round((p / 100) * BAR)))
-  return '█'.repeat(full) + '░'.repeat(BAR - full)
 }
 
 function left(p: number): number {
@@ -93,7 +87,7 @@ export const register: Register = on => {
       text: pick(rateLimits)
         .map(l => {
           const at = l.resetsAt ? new Date(l.resetsAt).toLocaleString() : 'unknown'
-          return `${name(l.kind)}: ${bar(l.percentUsed)} ${l.percentUsed}% used, ${left(l.percentUsed)}% left, resets in ${untilReset(l.resetsAt, now)} (${at})`
+          return `${name(l.kind)}: ${l.percentUsed}% used, ${left(l.percentUsed)}% left, resets in ${untilReset(l.resetsAt, now)} (${at})`
         })
         .join('\n'),
     }
@@ -121,8 +115,7 @@ export const register: Register = on => {
             <Box key={l.kind}>
               {i > 0 ? <Text dimColor>{'   │   '}</Text> : null}
               <Text color={w.color} bold>{`${w.icon} ${name(l.kind)} `}</Text>
-              <Text color={w.color}>{bar(l.percentUsed)}</Text>
-              <Text>{` ${l.percentUsed}%`}</Text>
+              <Text color={w.color} bold>{`${l.percentUsed}%`}</Text>
               <Text dimColor>{` · ${left(l.percentUsed)}% left · ⟳ ${untilReset(l.resetsAt, now)}`}</Text>
             </Box>
           )
