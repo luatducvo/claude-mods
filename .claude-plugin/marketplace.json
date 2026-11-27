@@ -1,0 +1,21 @@
+{
+  "name": "claude-mods",
+  "owner": {
+    "name": "luatducvo"
+  },
+  "metadata": {
+    "description": "Personal Claude Code mods"
+  },
+  "plugins": [
+    {
+      "name": "token-weather",
+      "source": "./token-weather",
+      "description": "Context window forecast above the prompt"
+    },
+    {
+      "name": "usage-limits",
+      "source": "./usage-limits",
+      "description": "5-hour and weekly Claude usage (used / left / reset) above the prompt, plus /usage-limits"
+    }
+  ]
+}

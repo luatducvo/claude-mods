@@ -1,0 +1,6 @@
+{
+  "name": "usage-limits",
+  "version": "0.2.0",
+  "description": "5-hour and weekly Claude usage (used / left / reset) above the prompt, plus /usage-limits",
+  "types": "./types/index.d.ts"
+}
